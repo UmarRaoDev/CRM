@@ -1,4 +1,4 @@
-import { piError } from "../utils/ApiError.js";
+import ApiError  from "../utils/ApiError.js";
 
 /** 404 handler for unmatched routes. */
 export const notFound = (req, res, next) => {
