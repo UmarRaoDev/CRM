@@ -8,6 +8,7 @@ import { notFound, errorHandler } from "./middleware/error.middleware.js";
 import authRoutes from "./routes/auth.routes.js"
 import leadRoutes from "./routes/lead.routes.js"
 import contactRoutes from "./routes/contact.routes.js";
+import noteRoutes from "./routes/note.routes.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/api/health", (req, res) =>
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/contacts", contactRoutes);
+app.use("/api/notes", noteRoutes);
 
 
 /* ────────────────────────────── Error handling (last) ────────────────────────────── */
