@@ -14,8 +14,7 @@ import aiRoutes from "./routes/ai.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js"
 
 const app = express();
-// At the top of server.js, after dotenv.config()
-console.log('Gemini Key loaded:', !!process.env.GEMINI_API_KEY);
+
 /* ────────────────────────────── Middleware ────────────────────────────── */
 app.use(
   cors({
@@ -52,26 +51,21 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
-
 /* ────────────────────────────── Error handling (last) ────────────────────────────── */
 app.use(notFound);
 app.use(errorHandler);
 
 /* ────────────────────────────── Boot ────────────────────────────── */
-const PORT = process.env.PORT || 8000;
 
-const start = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () =>
-      console.log(`🚀 TTP CRM API running on http://localhost:${PORT}`)
-    );
-  } catch (err) {
-    console.error("❌ Failed to start server:", err.message);
-    process.exit(1);
-  }
-};
+// Connect to DB immediately
+connectDB();
 
-start();
+// Only listen locally — Vercel handles this in production
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 8000;
+  app.listen(PORT, () =>
+    console.log(`🚀 TTP CRM API running on http://localhost:${PORT}`)
+  );
+}
 
 export default app;
