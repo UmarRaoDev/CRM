@@ -14,7 +14,8 @@ import aiRoutes from "./routes/ai.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js"
 
 const app = express();
-
+// At the top of server.js, after dotenv.config()
+console.log('Gemini Key loaded:', !!process.env.GEMINI_API_KEY);
 /* ────────────────────────────── Middleware ────────────────────────────── */
 app.use(
   cors({
@@ -30,7 +31,19 @@ if (process.env.NODE_ENV !== "production") app.use(morgan("dev"));
 app.get("/api/health", (req, res) =>
   res.json({ success: true, status: "ok", service: "TTP CRM API" })
 );
-
+app.get('/api/test-models', async (req, res) => {
+  try {
+    const { GoogleGenAI } = await import('@google/genai');
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const models = [];
+    for await (const model of await ai.models.list()) {
+      models.push(model.name);
+    }
+    res.json(models);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/contacts", contactRoutes);

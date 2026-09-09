@@ -20,8 +20,11 @@ const MODEL = () => process.env.GEMINI_MODEL || "gemini-2.5-flash";
 export const isAIConfigured = () => Boolean(process.env.GEMINI_API_KEY);
 
 const generateJSON = async (prompt, schema) => {
+  console.log('1. generateJSON called');
   const ai = getClient();
+  console.log('2. client created');
   try {
+    console.log('3. calling Gemini...');
     const response = await ai.models.generateContent({
       model: MODEL(),
       contents: prompt,
@@ -31,9 +34,10 @@ const generateJSON = async (prompt, schema) => {
         temperature: 0.6,
       },
     });
+    console.log('4. response received:', response.text);
     return JSON.parse(response.text);
   } catch (err) {
-    console.error("Gemini JSON error:", err?.message || err);
+    console.error("Gemini JSON error:", err); // Log full error not just message
     throw new ApiError(502, "AI request failed. Please try again in a moment.");
   }
 };

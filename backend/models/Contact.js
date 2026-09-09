@@ -8,18 +8,65 @@ const contactSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    name: { type: String, required: [true, "Contact name is required"], trim: true },
-    email: { type: String, trim: true, lowercase: true, default: "" },
-    phone: { type: String, trim: true, default: "" },
-    company: { type: String, trim: true, default: "" },
-    title: { type: String, trim: true, default: "" },
-    tags: [{ type: String, trim: true }],
-    notes: { type: String, default: "" },
-    favorite: { type: Boolean, default: false },
+
+    name: {
+      type: String,
+      required: [true, "Contact name is required"],
+      trim: true,
+    },
+
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      default: "",
+    },
+
+    phone: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    company: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    title: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    tags: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+
+    notes: {
+      type: String,
+      default: "",
+    },
+
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
-contactSchema.index({ name: "text", email: "text", company: "text" });
+contactSchema.index({
+  name: "text",
+  email: "text",
+  company: "text",
+});
 
-export const Contact = mongoose.model("Contact", contactSchema);
+const Contact = mongoose.model("Contact", contactSchema);
+
+export { Contact };
+export default Contact;
