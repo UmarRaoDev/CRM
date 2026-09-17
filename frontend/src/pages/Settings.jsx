@@ -109,9 +109,12 @@ function ProfileCard({ user, updateUser }) {
               />
             </Field>
 
-            <Field label="Company">
-              <Input placeholder="Your company" {...register("company")} />
-            </Field>
+           <Field label="Company">
+  <Input
+    placeholder="Your company"
+    
+  />
+</Field>
 
             {/* Email is read-only — changing it requires re-verification */}
             <Field label="Email address">
